@@ -20,16 +20,15 @@ BERT 가 클래스 불균형이 심한 데이터에 대해 어느 정도 성능�
  하기 위한 연구로 진행하였지만 필자는 캐글의 악성댓글 분류 대회(Toxic Comment Classifica
  tion Challenge | Kaggle)를 인용하여 실험 환경을 구성하겠다. 
  
+##### 1) 해결 방법: SMOTE(Synthetic Minority Oversampling Technique)
+SMOTE는 오버샘플링 방법 중 하나로, 소수의 클래스에 속하는 데이터 주변에 원본 데이터와 동일하지 않으면서 소수의 클래스에 해당하는 가상의 데이터를 생성하는 방법이다.
 
-1) 해결 방법: SMOTE(Synthetic Minority Oversampling Technique)
-SMOTE는 오버샘플링 방법 중 하나로, 소수의 클래스에 속하는 데이터 주변에 원본 데이터와 동일하지 않으면서 소수의 클래스에 해당하는 가상의 데이터를 생성하는 방법입니다.
-
-2) 해결 방법: Focal loss
- Focal loss는 Object Detection에서 학습 중 클래스 불균형 문제를 손실 함수로 해결하기 위해 고안된 방법입니다. Cross entropy의 클래스 불균형 문제는 백그라운드로 분류될 수 있는 easy negative가 대부분이어서 학습에 비효율적입니다. Focal loss는 Cross Entropy의 이런 클래스 불균형 문제를 개선해, 어렵거나 쉽게 잘못 분류되는 케이스에 더 큰 가중치를 줍니다. Focal loss에 대해 간단히 요약하자면, 잘 찾은 class의 경우에는 loss를 적게 줘 loss 갱신을 거의 하지 못하게 하고, 잘 찾지 못한 class의 경우 loss를 크게 줘서 loss 갱신을 크게 하는 것입니다. 결론적으로 잘 찾지 못한 class에 대해 더 집중해서 학습하도록 하는 방법이라고 볼 수 있습니다.
+##### 2) 해결 방법: Focal loss
+ Focal loss는 Object Detection에서 학습 중 클래스 불균형 문제를 손실 함수로 해결하기 위해 고안된 방법입니다. Cross entropy의 클래스 불균형 문제는 백그라운드로 분류될 수 있는 easy negative가 대부분이어서 학습에 비효율적이다. Focal loss는 Cross Entropy의 이런 클래스 불균형 문제를 개선해, 어렵거나 쉽게 잘못 분류되는 케이스에 더 큰 가중치를 준다. Focal loss에 대해 간단히 요약하자면, 잘 찾은 class의 경우에는 loss를 적게 줘 loss 갱신을 거의 하지 못하게 하고, 잘 찾지 못한 class의 경우 loss를 크게 줘서 loss 갱신을 크게 하는 것입니다. 결론적으로 잘 찾지 못한 class에 대해 더 집중해서 학습하도록 하는 방법이라고 볼 수 있다.
  
-3) 해결 방법: EDA(Easy Data Augmentation)
-EDA는 학습 데이터가 부족하거나, 불균형 문제가 발생했을 때, 현재 보유하고 있는 데이터를 변형시켜 데이터의 양을 늘리는 기법입니다. EDA에는 다음과 같은 기법들이 있습니다.
-① SR(Synonym Replacement, 동의어 교체): 문장에서 랜덤으로 stop words가 아닌 단어들 중 n개를 선택해 임의로 선택한 동의어들 중 하나로 바꿈
-② RI(Random Insertion, 무작위 삽입): stop word를 제외한 나머지 단어들 중, 랜덤으로 단어를 선택하여 동의어를 임의어로 정하고, 이를 각 문장 내에 임의의 자리에 넣음
-③ RS(Random Swap, 무작위 교체): 각 문장에서 무작위로 두 단어를 선택해 그 위치를 바꿈
-④ RD(Random Deletion, 무작위 삭제): 각 문장 내에서 랜덤하게 단어를 선택해 이를 삭제함
+##### 3) 해결 방법: EDA(Easy Data Augmentation)
+EDA는 학습 데이터가 부족하거나, 불균형 문제가 발생했을 때, 현재 보유하고 있는 데이터를 변형시켜 데이터의 양을 늘리는 기법이다. EDA에는 다음과 같은 기법들이 있다.
+① SR(Synonym Replacement, 동의어 교체): 문장에서 랜덤으로 stop words가 아닌 단어들 중 n개를 선택해 임의로 선택한 동의어들 중 하나로 바꿈.
+② RI(Random Insertion, 무작위 삽입): stop word를 제외한 나머지 단어들 중, 랜덤으로 단어를 선택하여 동의어를 임의어로 정하고, 이를 각 문장 내에 임의의 자리에 넣음.
+③ RS(Random Swap, 무작위 교체): 각 문장에서 무작위로 두 단어를 선택해 그 위치를 바꿈.
+④ RD(Random Deletion, 무작위 삭제): 각 문장 내에서 랜덤하게 단어를 선택해 이를 삭제함.
